@@ -73,28 +73,8 @@ int main()
         case 3:
             cout << "Enter data : ";
             cin >> data;
-            for (int i = size; i >= 1; i--)
-            {
-                if (i != 1)
-                {
-                    position++;
-                    arr[i] = arr[i - 1];
-                }
-                else
-                {
-
-                    arr[1] = data;
-                }
-            }
+            arr[size] = data;
             size++;
-            cout << "Move = " << position << " Position" << endl;
-            cout << "Data move = ";
-            position = 0;
-            for (int i = 2; i < size; i++)
-            {
-                cout << arr[i] << " ";
-            }
-            cout << endl;
             cout << "Data in list : ";
             for (int i = 0; i < size; i++)
             {
