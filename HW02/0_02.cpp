@@ -11,16 +11,54 @@ struct record *insert(struct record *head,int value){
         head = new struct record;
         head->value = value;
         head->next = NULL;
+        return head;
     }
     else{
         struct record *p = head;
-        while(p->next != NULL){
-            p = p->next;
+        if(p->next== NULL){
+            if(p->value < value){
+                struct record *temp = new struct record;
+                temp->next = NULL;
+                temp->value = value;
+                p->next = temp;
+                // cout << "AA";
+                return head;
+            }
+            else{
+                struct record *temp = new struct record;
+                temp->next = p;
+                temp->value = value;
+                head = temp;
+                // cout << "AA";
+                return head;
+            }
         }
-        struct record *temp = new struct record;
-        p->next = temp;
-        p->next->next = NULL;
-        p->next->value = value;
+        else{
+            while (p->next->next != NULL){
+                if(p->next->value > value){
+                    struct record *temp = new struct record;
+                    temp->value = value;
+                    temp->next = p->next;
+                    p->next = temp;
+                    return head;
+                }
+                p = p->next;
+            }
+            if(p->next->value > value){
+                struct record *temp = new struct record;
+                temp->value = value;
+                temp->next = p->next;
+                p->next = temp;
+                return head;
+            }
+            else{
+                struct record *temp = new struct record;
+                temp->next = NULL;
+                temp->value = value;
+                p->next->next = temp;
+                return head;
+            }
+        }
     }
     return head;
 }
@@ -40,17 +78,12 @@ void printAll(struct record *head){
 }
 
 void printFAD(struct record *head){
-    if(head == NULL){
-        cout <<"Empty list!"<<endl;
-    }
-    else{
-        struct record *p = head;
+    struct record *p = head;
         cout << "Frist : " <<p->value<<endl;
         while(p->next != NULL){
             p = p->next;
         }
         cout << "Last : " <<p->value<<endl;
-    }
 }
 
 int main(){
