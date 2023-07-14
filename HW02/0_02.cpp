@@ -8,42 +8,15 @@ struct record{
 
 struct record *insert(struct record *head,int value){
     if(head == NULL){
-        head = new struct record;
+        struct record *temp = new struct record;
+        head = temp;
         head->value = value;
         head->next = NULL;
         return head;
     }
     else{
         struct record *p = head;
-        if(p->next== NULL){
-            if(p->value < value){
-                struct record *temp = new struct record;
-                temp->next = NULL;
-                temp->value = value;
-                p->next = temp;
-                // cout << "AA";
-                return head;
-            }
-            else{
-                struct record *temp = new struct record;
-                temp->next = p;
-                temp->value = value;
-                head = temp;
-                // cout << "AA";
-                return head;
-            }
-        }
-        else{
-            while (p->next->next != NULL){
-                if(p->next->value > value){
-                    struct record *temp = new struct record;
-                    temp->value = value;
-                    temp->next = p->next;
-                    p->next = temp;
-                    return head;
-                }
-                p = p->next;
-            }
+        while (p->next != NULL){
             if(p->next->value > value){
                 struct record *temp = new struct record;
                 temp->value = value;
@@ -51,16 +24,16 @@ struct record *insert(struct record *head,int value){
                 p->next = temp;
                 return head;
             }
-            else{
-                struct record *temp = new struct record;
-                temp->next = NULL;
-                temp->value = value;
-                p->next->next = temp;
-                return head;
-            }
+            p = p->next;
         }
+        if(p->next == NULL){
+            struct record *temp = new struct record;
+            p->next = temp;
+            p->next->value = value;
+            p->next->next = NULL;
+        }
+        return head;
     }
-    return head;
 }
 void printAll(struct record *head){
     if(head == NULL){
@@ -118,7 +91,6 @@ int main(){
             break;
         }
     }
-    
     // head = insert(head,10);
     // head = insert(head,20);
     // head = insert(head,30);
