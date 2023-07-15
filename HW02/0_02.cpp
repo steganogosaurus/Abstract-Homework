@@ -16,7 +16,15 @@ struct record *insert(struct record *head,int value){
     }
     else{
         struct record *p = head;
-        while (p->next != NULL){
+        if(p->value > value){
+            struct record *temp = new struct record;
+            temp->value = value;
+            temp->next = p;
+            head = temp;
+            return head; 
+        }
+        else{
+            while (p->next != NULL){
             if(p->next->value > value){
                 struct record *temp = new struct record;
                 temp->value = value;
@@ -25,14 +33,15 @@ struct record *insert(struct record *head,int value){
                 return head;
             }
             p = p->next;
+            }
+            if(p->next == NULL){
+                struct record *temp = new struct record;
+                p->next = temp;
+                p->next->value = value;
+                p->next->next = NULL;
+            }
+            return head;
         }
-        if(p->next == NULL){
-            struct record *temp = new struct record;
-            p->next = temp;
-            p->next->value = value;
-            p->next->next = NULL;
-        }
-        return head;
     }
 }
 void printAll(struct record *head){
@@ -91,10 +100,4 @@ int main(){
             break;
         }
     }
-    // head = insert(head,10);
-    // head = insert(head,20);
-    // head = insert(head,30);
-    // printAll(head);
-    // cout <<endl;
-    // printFAD(head);
 }
