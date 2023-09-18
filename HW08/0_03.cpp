@@ -20,6 +20,7 @@ bool isEmpty(Queue q);
 Node top(Queue q);
 Node insert(Node linkedList,int value);
 void printAll(Node linkedList);
+void searchPath(int *d,int *pred,int node);
 void inputAdjList(Node *arr,int index,int value);
 void BFS(int numberNode,Node *nodeArr,int *d,int *pred);
 Node *makeNullArray(int size);
@@ -32,27 +33,52 @@ int main(){
     int *d = makearrayBegin(size);
     int *pred = makearrayBegin(size);
     int value;
-    for(int i = 0;i < size;i++){
-        cout <<"Enter #"<<i<<" : ";
-        while (true){
-            cin >> value;
-            if(value != -1){
-                inputAdjList(arr,i,value);
+    int chose;
+    while(true){
+        cout <<"===========MENU=========="<<endl;
+        printf("1)Input adjacency list\n2)BFS\n3)Search path\n4)Exit\nPlease choose >");
+        cin >> chose;
+        switch(chose)
+        {
+        case 1:
+            for(int i = 0;i < size;i++){
+                cout <<"Enter #"<<i<<" : ";
+                while (true){
+                    cin >> value;
+                    if(value != -1){
+                        inputAdjList(arr,i,value);
+                    }
+                    else{
+                        break;
+                    }
+                }
             }
-            else{
-                break;
+            for(int i = 0;i < size;i++){
+                cout <<"#"<<i<<" : ";
+                printAll(arr[i]);
+                cout << endl;
             }
+            break;
+        case 2:
+            BFS(2,arr,d,pred);
+            cout <<"   | d | pred "<<endl<<"=============="<<endl;
+            for(int x = 0;x<size;x++){
+                printf(" %d | %d |  %d \n",x,d[x],pred[x]);
+            }
+            break;
+        case 3:
+            cout << "Enter end point : ";
+            cin >> value; 
+            searchPath(d,pred,value);
+            break;
+        case 4:
+            exit(0);
+            break;
+        default:
+            cout << "Enter 1 - 4 Please"<<endl;
+            break;
         }
-    }
-    for(int i = 0;i < size;i++){
-        cout <<"#"<<i<<" : ";
-        printAll(arr[i]);
-        cout << endl;
-    }
-    BFS(2,arr,d,pred);
-    cout <<"   | d | pred "<<endl<<"=============="<<endl;
-    for(int x = 0;x<size;x++){
-        printf(" %d | %d |  %d \n",x,d[x],pred[x]);
+    
     }
     return 0;
 }
@@ -178,4 +204,32 @@ void BFS(int numberNode,Node *nodeArr,int *d,int *pred){
         }            
         q = dequeue(q);
     }
+}
+void searchPath(int *d,int *pred,int node){
+    int arr[8];
+    int round = 0;
+    int index = node;
+    while (true){
+        if(pred[index] != 2){
+            arr[round] = index;
+            round++;
+            index = pred[index];
+        }
+        else{
+            arr[round] = index;
+            index = pred[index];
+            round++;
+            arr[round] = index;
+            index = pred[index];
+            break;
+        }
+    }
+    cout << "Path = ";
+    for(int i = round ; i>0;i--){
+        printf("(%d,%d)",arr[i],arr[i-1]);
+        if(i!=1){
+            printf(" , ");
+        }
+    }
+    cout <<endl<<"Distance = "<<d[node]<<endl;
 }
